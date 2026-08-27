@@ -38,12 +38,25 @@ class ModularEnironmentToolsPanel(bpy.types.Panel):
         col3.operator("object.ucx_to_ubx", text = "UCX -> UBX")
         col3.operator("object.ubx_to_ucx", text = "UBX -> UCX")
         
-        layout.prop(props, "use_x_size")
-        layout.prop(props, "use_Y_size")
-        layout.prop(props, "use_Z_size")
-
-        layout.prop(props, "my_enum")
-
-        layout.prop(props, "rounding")
+        col4 = layout.column(align=True)
+        
+        col4.label(text="Add dimensions to name")
+        
+        
+        col4row1 = col4.row(align=True)
+        col4row1.prop(props, "use_x_size", toggle=True)
+        col4row1.prop(props, "use_y_size", toggle=True)
+        col4row1.prop(props, "use_z_size", toggle=True)
+        
+        col4.prop(props, "units")
+        
+        col4.prop(props, "rounding")
+        
+        col4.operator("object.add_size_to_name", text="Add size to names")
+        
+        layout.label(text="Transformation tools")
+        
+        col5 = layout.column(align=True)
+        col5.operator("object.batch_apply_transform", text="Apply transform for selected modules")
         
         
