@@ -1,5 +1,4 @@
 import bpy
-import math
 
 class AutoUnwrap(bpy.types.Operator):
     bl_idname = "objects.auto_unwrap"
@@ -21,7 +20,7 @@ class AutoUnwrap(bpy.types.Operator):
         props = context.scene.auto_unwrap_props
 
 
-        bpy.ops.mesh.edges_select_sharp(sharpness=math.radians(props.edge_angle))
+        bpy.ops.mesh.edges_select_sharp(sharpness=props.edge_angle)
         bpy.ops.mesh.mark_seam(clear=False)
         bpy.ops.mesh.select_all(action='SELECT')
         bpy.ops.uv.unwrap(method='CONFORMAL', fill_holes=True, correct_aspect=False, use_subsurf_data=False, margin=0.001, no_flip=False, iterations=10, use_weights=False, weight_group="uv_importance", weight_factor=1)

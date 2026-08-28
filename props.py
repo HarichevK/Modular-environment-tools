@@ -1,4 +1,5 @@
 import bpy
+import math
 
 class ObjectScaleNamingProperties(bpy.types.PropertyGroup):
         
@@ -22,10 +23,12 @@ class ObjectScaleNamingProperties(bpy.types.PropertyGroup):
     
 class AutoUnwrapProperties(bpy.types.PropertyGroup):
     
-    edge_angle: bpy.props.IntProperty(
+    edge_angle: bpy.props.FloatProperty(
         name = "Sharp angle", 
-        default=40)
+        default=math.pi / 8,
+        min=0, max = 360, unit="ROTATION")
     
     texel_density: bpy.props.FloatProperty(
         name = "Texel density",
-        default=1024)
+        default=1024,
+        min=0)
