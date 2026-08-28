@@ -24,6 +24,7 @@ bl_info = {
 
 from . import auto_load
 from .props import ObjectScaleNamingProperties
+from .props import AutoUnwrapProperties
 import bpy
 
 auto_load.init()
@@ -35,10 +36,15 @@ def register():
     bpy.types.Scene.object_scale_naming = bpy.props.PointerProperty(
     type=ObjectScaleNamingProperties
     )
+    
+    bpy.types.Scene.auto_unwrap_props = bpy.props.PointerProperty(
+        type=AutoUnwrapProperties 
+    )
 
 
 def unregister():
     
     del bpy.types.Scene.object_scale_naming
+    del bpy.types.Scene.auto_unwrap_props
     
     auto_load.unregister()

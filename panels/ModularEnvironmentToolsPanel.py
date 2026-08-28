@@ -59,4 +59,20 @@ class ModularEnironmentToolsPanel(bpy.types.Panel):
         col5 = layout.column(align=True)
         col5.operator("object.batch_apply_transform", text="Apply transform for selected modules")
         
+        layout.label(text="UV tools")
+        
+        if not hasattr(context.scene, "auto_unwrap_props"):
+            layout.label(text="Property not registered – reload addon", icon='ERROR')
+            return
+        
+        props_unwrap = context.scene.auto_unwrap_props
+        
+        col6 = layout.column(align=True)
+        
+        col6.prop(props_unwrap, "edge_angle")
+        col6.prop(props_unwrap, "texel_density")
+        
+        col6.operator("objects.auto_unwrap", text="Unwrap selected")
+        
+        
         
