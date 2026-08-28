@@ -2,6 +2,7 @@ import bpy
 
 class AddSizeToNameOperator(bpy.types.Operator):
     bl_idname = "object.add_size_to_name"
+    bl_description = "Adds size postfix for selected objects"
     bl_label = "Add Size to Name"
 
     def execute(self, context):

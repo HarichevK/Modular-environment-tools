@@ -19,15 +19,15 @@ class ModularEnironmentToolsPanel(bpy.types.Panel):
         
         col.operator("object.select_unprocessed_modules", text="Select unprocessed modules")
         col.operator("object.select_unused_modules", text="Select unused modules")
-        col.operator("object.count_unique_object_data", text = "Count unique modules from selected")
+        col.operator("object.count_unique_object_data", text = "Count unique modules")
 
         layout.label(text =  "Collision tools")
         
         col2 = layout.column(align=True)
         
-        col2.operator("object.make_collision_draft_for_selected", text="Make collision draft for selected objects")
-        col2.operator("object.select_incorrect_collision_geometry", text="Select incorrect collision geometry from selected")
-        col2.operator("object.select_collisions_with_box_shape", text = "Selsect collison with box shape")
+        col2.operator("object.make_collision_draft_for_selected", text="Make collision draft")
+        col2.operator("object.select_incorrect_collision_geometry", text="Select incorrect collision")
+        col2.operator("object.select_collisions_with_box_shape", text = "Selsect box shaped collison")
         
         layout.label(text =  "Naming tools")
         
@@ -57,7 +57,7 @@ class ModularEnironmentToolsPanel(bpy.types.Panel):
         layout.label(text="Transformation tools")
         
         col5 = layout.column(align=True)
-        col5.operator("object.batch_apply_transform", text="Apply transform for selected modules")
+        col5.operator("object.batch_apply_transform", text="Apply transform for modules")
         
         layout.label(text="UV tools")
         

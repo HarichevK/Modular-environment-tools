@@ -3,6 +3,7 @@ import bpy
 class SelectUnprocessedModulesOperator(bpy.types.Operator):
     bl_idname = "object.select_unprocessed_modules"
     bl_label = "Select Unprocessed Modules"
+    bl_description = "Select visible objects with object datas not represented in Modules collection"
 
     def execute(self, context):
         
