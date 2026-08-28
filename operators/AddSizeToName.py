@@ -11,16 +11,8 @@ class AddSizeToNameOperator(bpy.types.Operator):
         props = context.scene.object_scale_naming
         
         objects = [obj for obj in context.selected_objects if obj.type == "MESH"]
-        
-        
-        divider = int(100)
-        
-        if props.units == "cm":
-            divider = 1
-        elif props.units == "m":
-            divider = 100
             
-        rounding = int(props.rounding)
+        rounding = -int(props.rounding)
         
         for obj in objects:
             
@@ -30,14 +22,29 @@ class AddSizeToNameOperator(bpy.types.Operator):
             Ycm = int(round(obj.dimensions.y * 100))
             Zcm = int(round(obj.dimensions.z * 100))
             
-            if (props.use_x_size):
-                result += f"_{int(round(Xcm, rounding) / divider)}"
-        
-            if (props.use_z_size):
-                result += f"_{int(round(Zcm, rounding) / divider)}"
-        
-            if (props.use_y_size):
-                result += f"_{int(round(Ycm, rounding) / divider)}"
+            
+            if props.units == "cm":
+                
+                if (props.use_x_size):
+                    result += f"_{int(round(Xcm, rounding))}"
+            
+                if (props.use_z_size):
+                    result += f"_{int(round(Zcm, rounding))}"
+            
+                if (props.use_y_size):
+                    result += f"_{int(round(Ycm, rounding))}"
+                    
+            elif props.units == "m":
+                
+                if (props.use_x_size):
+                    result += f"_{round(Xcm, rounding) / 100:.2f}"
+            
+                if (props.use_z_size):
+                    result += f"_{round(Zcm, rounding) / 100:.2f}"
+            
+                if (props.use_y_size):
+                    result += f"_{round(Ycm, rounding) / 100:.2f}"
+
                 
             obj.name = obj.name + result;
         
