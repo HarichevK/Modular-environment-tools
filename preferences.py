@@ -60,7 +60,7 @@ def register():
         return
 
     km = kc.keymaps.new(name=KEYMAP_NAME, space_type=KEYMAP_SPACE_TYPE)
-    kmi = km.keymap_items.new("wm.call_panel", "M", "PRESS", ctrl=True, shift=True)
+    kmi = km.keymap_items.new("wm.call_panel", "C", "PRESS", shift=True)
     kmi.properties.name = PANEL_ID
     addon_keymaps.append((km, kmi))
 

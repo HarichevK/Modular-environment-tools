@@ -1,11 +1,36 @@
 import bpy
 import os
 
+NODE_GROUP_NAME = "IslandConvexHull"
 
-island_convex_hull_node_group_name = "IslandConvexHull"
+ASSET_FILENAME = "ModularEnvironmentTools.blend"
 
-island_convex_hull_node_group = None
+def asset_path():
+    return os.path.normpath(
+        os.path.join(os.path.dirname(__file__), "..", "assets", ASSET_FILENAME)
+    )
 
+def load_node_group(name=NODE_GROUP_NAME):
+
+    existing = bpy.data.node_groups.get(name)
+    if existing is not None:
+        return existing
+
+    path = asset_path()
+    if not os.path.exists(path):
+        return None
+
+    with bpy.data.libraries.load(path, link=False) as (data_from, data_to):
+        if name not in data_from.node_groups:
+            return None
+        data_to.node_groups = [name]
+
+    group = bpy.data.node_groups.get(name)
+    if group is not None:
+        # Nothing points at it until a modifier does, so it would be dropped
+        # on save without this.
+        group.use_fake_user = True
+    return group
 
 class MakeCollisionDraftsForSelected(bpy.types.Operator):
     bl_idname = "object.make_collision_draft_for_selected"
@@ -19,29 +44,6 @@ class MakeCollisionDraftsForSelected(bpy.types.Operator):
 
     def execute(self, context):
         
-        global island_convex_hull_node_group
-        global island_convex_hull_node_group_name
-        
-        if island_convex_hull_node_group is None:
-        
-            blend_filepath = os.path.join(os.path.dirname(__file__), "..", "assets", "ModularEnvironmentTools.blend")
-            
-            with bpy.data.libraries.load(blend_filepath, link=False) as (data_from, data_to):
-                if island_convex_hull_node_group_name in data_from.node_groups:
-                    data_to.node_groups = [island_convex_hull_node_group_name]
-                else:
-                    print(f"Node group '{island_convex_hull_node_group_name}' not found in {blend_filepath}")
-                    return None
-                
-            
-            if island_convex_hull_node_group_name in bpy.data.node_groups:
-                island_convex_hull_node_group = bpy.data.node_groups[island_convex_hull_node_group_name]
-                island_convex_hull_node_group.use_fake_user = True
-            else:
-                print(f"Error: node tree {island_convex_hull_node_group_name} could not be loaded")
-                return None
-        
-        # Получаем/создаём материал Collision
         collision_mat = bpy.data.materials.get("Collision")
         if collision_mat is None:
             collision_mat = bpy.data.materials.new("Collision")
@@ -49,6 +51,8 @@ class MakeCollisionDraftsForSelected(bpy.types.Operator):
         collision_objects = []
 
         selected_objects = context.selected_objects
+        
+        node_group = load_node_group()
 
         for obj in selected_objects:
             if obj.type != 'MESH':
@@ -85,7 +89,7 @@ class MakeCollisionDraftsForSelected(bpy.types.Operator):
 
             # Добавляем GeometryNodes модификатор
             geo_mod = obj_collision.modifiers.new("IslandConvexHull", type='NODES')
-            geo_mod.node_group = island_convex_hull_node_group
+            geo_mod.node_group = node_group
             
             dec_mod = obj_collision.modifiers.new("Decimate", type='DECIMATE')
             dec_mod.decimate_type = 'DISSOLVE'
@@ -97,7 +101,7 @@ class MakeCollisionDraftsForSelected(bpy.types.Operator):
             
             # Добавляем GeometryNodes модификатор
             geo_mod2 = obj_collision.modifiers.new("IslandConvexHull2", type='NODES')
-            geo_mod2.node_group = island_convex_hull_node_group
+            geo_mod2.node_group = node_group
             
             
             collision_objects.append(obj_collision)
