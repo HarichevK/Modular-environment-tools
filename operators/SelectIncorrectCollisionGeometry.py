@@ -99,7 +99,7 @@ class SelectIncorrectCollisionGeometry(bpy.types.Operator):
 
         selected_objects = [obj for obj in bpy.context.selected_objects if obj.type == 'MESH']
         if not selected_objects:
-            return
+            return {"FINISHED"}
 
         for obj in selected_objects:
             bpy.context.view_layer.objects.active = obj

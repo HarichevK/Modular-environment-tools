@@ -7,7 +7,7 @@ class AddSizeToNameOperator(bpy.types.Operator):
 
     def execute(self, context):
         if not hasattr(context.scene, "object_scale_naming"):
-            return
+            return {"FINISHED"}
                 
         props = context.scene.object_scale_naming
         

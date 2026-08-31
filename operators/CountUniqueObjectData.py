@@ -3,7 +3,7 @@ import bpy
 class CountUniqueObjectData(bpy.types.Operator):
     bl_idname = "object.count_unique_object_data"
     bl_label = "Count unique object data"
-    bl_description = "Counts unique object datas from selected objects"
+    bl_description = "Count how many unique meshes the selected objects share"
     bl_options = {"REGISTER"}
 
     @classmethod

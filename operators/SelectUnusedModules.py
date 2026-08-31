@@ -14,7 +14,7 @@ class SelectUnusedModules(bpy.types.Operator):
         
         modules_coll = bpy.data.collections.get("Modules")
         if not modules_coll:
-            return "NoModulesCollection"
+            return {"FINISHED"}
     
         single_user_data_objects = [obj for obj in modules_coll.objects if obj.data is not None and obj.data.users == 1]
         
