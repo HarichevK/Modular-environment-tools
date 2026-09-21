@@ -38,7 +38,8 @@ class AutoUnwrap(bpy.types.Operator):
         
         context.scene.zen_uv.td_props.prp_current_td = props.texel_density
         bpy.ops.uv.zenuv_set_texel_density(global_mode=True)
-        
+        bpy.ops.uv.zenuv_align(align_to='TO_POSITION', align_direction='bl', island_pivot='bl')
+
         bpy.ops.object.editmode_toggle()
             
         
