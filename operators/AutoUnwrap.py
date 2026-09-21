@@ -20,6 +20,7 @@ class AutoUnwrap(bpy.types.Operator):
         props = context.scene.auto_unwrap_props
 
 
+        bpy.context.tool_settings.mesh_select_mode = (False, True, False)
         bpy.ops.mesh.edges_select_sharp(sharpness=props.edge_angle)
         bpy.ops.mesh.mark_seam(clear=False)
         bpy.ops.mesh.select_all(action='SELECT')
