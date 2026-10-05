@@ -104,6 +104,7 @@ class MakeCollisionDraftsForSelected(bpy.types.Operator):
             geo_mod2.node_group = node_group
             
             
-            collision_objects.append(obj_collision)
+            obj_collision.data.name = obj_collision.name
+            
             print(f"Создан: {obj_collision.name}")
         return {"FINISHED"}

@@ -21,6 +21,8 @@ class ModularEnironmentToolsPanel(bpy.types.Panel):
         col.operator("object.select_unused_modules", text="Select unused modules")
         col.operator("object.count_unique_object_data", text = "Count unique modules")
         col.operator("object.extract_modules", text="Extract modules")
+        col.operator("object.select_local_meshes", text="Select local meshes")
+        col.operator("object.select_duplicates", text="Select duplicates")
 
         layout.label(text =  "Collision tools")
         
@@ -38,7 +40,8 @@ class ModularEnironmentToolsPanel(bpy.types.Panel):
         
         col3.operator("object.ucx_to_ubx", text = "UCX -> UBX")
         col3.operator("object.ubx_to_ucx", text = "UBX -> UCX")
-        col3.operator("object.mesh_name_to_object_name", text = "Mesh name to object name")
+        col3.operator("object.mesh_name_to_object_name", text = "Data Name -> Obj Name")
+        col3.operator("object.object_name_to_mesh_name", text = "Obj Name -> Data Name")
         
         col4 = layout.column(align=True)
         

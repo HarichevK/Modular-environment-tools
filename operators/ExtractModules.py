@@ -1,4 +1,5 @@
 import bpy
+from typing import List
 
 class ExtractModules(bpy.types.Operator):
     bl_idname = "object.extract_modules"
@@ -21,15 +22,26 @@ class ExtractModules(bpy.types.Operator):
                 
         existing_modules_data = {obj.data for obj in modules_coll.objects if obj.type == 'MESH'}
         
-        new_modules = {data for data in selected_mesh_data if data not in existing_modules_data}
+        new_modules = {data for data in selected_mesh_data if data not in existing_modules_data and data.is_editable}
+
+
+        newObjects = []
 
         for mesh_data in new_modules:
             obj = bpy.data.objects.new(f"{mesh_data.name}", mesh_data)
             modules_coll.objects.link(obj)
             obj.location = (0, 0, 0)
+            newObjects.append(obj)
             
         if new_modules:
             self.report({"INFO"}, message = f"Extracted {len(new_modules)} modules")
+            
+            bpy.ops.object.select_all(action='DESELECT')
+            for obj in newObjects:
+                obj.select_set(True)
+            
+            bpy.context.view_layer.objects.active = newObjects[-1]
+            
         else:
              self.report({"INFO"}, message = "No meshes selected or modules already in 'Modules' Collection")
         

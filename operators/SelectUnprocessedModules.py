@@ -19,7 +19,7 @@ class SelectUnprocessedModulesOperator(bpy.types.Operator):
         all_meshes = [obj for obj in bpy.context.scene.objects
                       if obj.type == 'MESH' and obj.visible_get()]
         
-        objects_to_select = [obj for obj in all_meshes if obj.data not in module_data]
+        objects_to_select = [obj for obj in all_meshes if obj.data not in module_data and obj.data.is_editable]
         
         for obj in objects_to_select:
             obj.select_set(True)

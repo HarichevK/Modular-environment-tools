@@ -12,6 +12,8 @@ class MeshNameToObjectName(bpy.types.Operator):
 
     def execute(self, context):
         
+        objects = [obj for obj in context.selected_objects if obj.type == "MESH" and obj.is_editable]
+        
         modules_coll = bpy.data.collections.get("Modules") or bpy.data.collections.new("Modules")
         if "Modules" not in context.scene.collection.children:
             bpy.context.scene.collection.children.link(modules_coll)
@@ -20,20 +22,22 @@ class MeshNameToObjectName(bpy.types.Operator):
         
         # Собираем объекты по имени их Object data, сохраняя порядок появления
         groups = {}
-        for obj in context.selected_objects:
+        for obj in objects:
+            
             if obj.data is None:
                 continue
             name = obj.data.name
             groups.setdefault(name, []).append(obj)
 
         # Временные имена, чтобы избежать конфликтов при переименовании
-        for i, obj in enumerate( context.selected_objects):
+        for i, obj in enumerate(objects):
             obj.name = f"__tmp_rename_{i}__"
 
         # Финальные имена в порядке появления Object data
         for data_name, objs in groups.items():
             pad = max(2, len(str(len(objs))))
             for i, obj in enumerate(objs, start=1):
+                
                 if obj in modules_obj:
                     obj.name = f"{data_name}"
                 else:

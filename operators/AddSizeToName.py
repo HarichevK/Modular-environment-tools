@@ -1,4 +1,5 @@
 import bpy
+import re
 
 class AddSizeToNameOperator(bpy.types.Operator):
     bl_idname = "object.add_size_to_name"
@@ -47,7 +48,7 @@ class AddSizeToNameOperator(bpy.types.Operator):
                     result += f"_{round(Ycm, rounding) / 100:.2f}"
 
                 
-            obj.name = obj.name + result;
+            obj.name = re.sub(r"\.\d{3,}$", "", obj.name) + result;
         
         return {"FINISHED"}
 
